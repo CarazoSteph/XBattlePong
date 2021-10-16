@@ -10,10 +10,26 @@ export default class Home extends Component {
       currentEvent: '',
       valueEventName: '',
       valueClientName: '',
+      
+      valueTimeInitialEvent: '',
+      valueDateInitialEvent: '',
+
+      valueDateFinalEvent: '',
+      valueTimeFinalEvent: '',
+
+      valuePlaceEvent: '',
+      valueCodeEvent: ''
+
     }
     this.currentEvent= '';
     this.handleChangeEventName = this.handleChangeEventName.bind(this);
     this.handleChangeClientName = this.handleChangeClientName.bind(this);
+    this.handleChangeTimeInitialevent = this.handleChangeTimeInitialevent.bind(this);
+    this.handleChangeDateInitialEvent = this.handleChangeDateInitialEvent.bind(this);
+    this.handleChangeDateFinalEvent = this.handleChangeDateFinalEvent.bind(this);
+    this.handleChangeTimeFinalEvent = this.handleChangeTimeFinalEvent.bind(this);
+    this.handleChangePlaceEvent = this.handleChangePlaceEvent.bind(this);
+    this.handleChangeCodeEvent = this.handleChangeCodeEvent.bind(this);
   }
 
   handleChangeEventName(event) {
@@ -22,12 +38,34 @@ export default class Home extends Component {
   handleChangeClientName(event) {
     this.setState({ valueClientName: event.target.value });
   }
+  handleChangeTimeInitialEvent(event) {
+    this.setState({ valueTimeInitialEvent: event.target.value });
+  }
+  handleChangeDateInitialEvent(event) {
+    this.setState({ valueDateInitialEvent: event.target.value });
+  }
+  handleChangeDateFinalEvent(event) {
+    this.setState({ valueDateFinalEvent: event.target.value });
+  }
+  handleChangeTimeFinalEvent(event) {
+    this.setState({ valueTimeFinalEvent: event.target.value });
+  }
+
+  handleChangePlaceEvent(event) {
+    this.setState({ valuePlaceEvent: event.target.value });
+  }
+
+  handleChangeCodeEvent(event) {
+    this.setState({ valueCodeEvent: event.target.value });
+  }
+
 
   handleSubmitNewEvent(event){
     console.log(this.state.valueEventName,this.state.valueClientName)
     event.preventDefault();
   }
 
+ 
   editEvent(value){
     this.currentEvent=value
   }
@@ -101,17 +139,17 @@ export default class Home extends Component {
                       <label for="basic-url" class="form-label">Fecha y hora de inicio</label>
                       <div class="input-group mb-3">
                         <span class="input-group-text">Fecha</span>
-                        <input type="date" class="form-control" required />
+                        <input type="date" class="form-control" onChange={this.handleChangeDateInitialEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                         <span class="input-group-text">Hora</span>
-                        <input type="time" class="form-control" required />
+                        <input type="time" class="form-control" onChange={this.handleChangeTimeInitialEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                       </div>
                       <label for="basic-url" class="form-label">Fecha y hora de finalización</label>
 
                       <div class="input-group mb-3">
                         <span class="input-group-text">Fecha</span>
-                        <input type="date" class="form-control" required />
+                        <input type="date" class="form-control" onChange={this.handleChangeDateFinalEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                         <span class="input-group-text">Hora</span>
-                        <input type="time" class="form-control" required />
+                        <input type="time" class="form-control" onChange={this.handleChangeDateFinalEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
 
                       </div>
                       <label for="basic-url" class="form-label">País del evento</label>
@@ -124,13 +162,13 @@ export default class Home extends Component {
                         </select>
                       </div>
                       <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="Localidad del Evento" />
+                        <input type="email" class="form-control" id="floatingInput" placeholder="Localidad del Evento"  onChange={this.handleChangePlaceEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required/>
                         <label for="floatingInput">Localidad del Evento</label>
                       </div>
 
                       <label for="basic-url" class="form-label">Código de evento</label>
                       <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" onChange={this.handleChangeCodeEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                       </div>
 
                     </div>
