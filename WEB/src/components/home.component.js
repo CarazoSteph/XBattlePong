@@ -21,10 +21,9 @@ export default class Home extends Component {
       valueCodeEvent: ''
 
     }
-    this.currentEvent= '';
     this.handleChangeEventName = this.handleChangeEventName.bind(this);
     this.handleChangeClientName = this.handleChangeClientName.bind(this);
-    this.handleChangeTimeInitialevent = this.handleChangeTimeInitialevent.bind(this);
+    this.handleChangeTimeInitialEvent = this.handleChangeTimeInitialEvent.bind(this);
     this.handleChangeDateInitialEvent = this.handleChangeDateInitialEvent.bind(this);
     this.handleChangeDateFinalEvent = this.handleChangeDateFinalEvent.bind(this);
     this.handleChangeTimeFinalEvent = this.handleChangeTimeFinalEvent.bind(this);
@@ -41,6 +40,7 @@ export default class Home extends Component {
   handleChangeTimeInitialEvent(event) {
     this.setState({ valueTimeInitialEvent: event.target.value });
   }
+
   handleChangeDateInitialEvent(event) {
     this.setState({ valueDateInitialEvent: event.target.value });
   }
@@ -67,7 +67,7 @@ export default class Home extends Component {
 
  
   editEvent(value){
-    this.currentEvent=value
+    this.setState({currentEvent:value})
   }
 
   render() {
@@ -192,11 +192,11 @@ export default class Home extends Component {
                   <div class="modal-body">
                     <label for="basic-url" class="form-label">Nombre del Evento</label>
                     <div class="input-group mb-3">
-                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.currentEvent.eventName} required />
+                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.eventName} required />
                     </div>
                     <label for="basic-url" class="form-label">Nombre del Cliente</label>
                     <div class="input-group mb-3">
-                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.currentEvent.clientName} />
+                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.clientName} />
                     </div>
                     <label for="basic-url" class="form-label">Fecha y hora de inicio</label>
                     <div class="input-group mb-3">
