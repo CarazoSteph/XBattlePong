@@ -139,17 +139,17 @@ export default class Home extends Component {
                       <label for="basic-url" class="form-label">Fecha y hora de inicio</label>
                       <div class="input-group mb-3">
                         <span class="input-group-text">Fecha</span>
-                        <input type="date" class="form-control" onChange={this.handleChangeDateInitialEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
+                        <input type="date" class="form-control" value={this.state.valueDateInitialEvent} onChange={this.handleChangeDateInitialEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                         <span class="input-group-text">Hora</span>
-                        <input type="time" class="form-control" onChange={this.handleChangeTimeInitialEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
+                        <input type="time" class="form-control" value={this.state.valueTimeInitialEvent} onChange={this.handleChangeTimeInitialEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                       </div>
                       <label for="basic-url" class="form-label">Fecha y hora de finalización</label>
 
                       <div class="input-group mb-3">
                         <span class="input-group-text">Fecha</span>
-                        <input type="date" class="form-control" onChange={this.handleChangeDateFinalEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
+                        <input type="date" class="form-control" value={this.state.valueDateFinalEvent} onChange={this.handleChangeDateFinalEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                         <span class="input-group-text">Hora</span>
-                        <input type="time" class="form-control" onChange={this.handleChangeDateFinalEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
+                        <input type="time" class="form-control" value={this.state.valueTimeFinalEvent} onChange={this.handleChangeTimeFinalEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
 
                       </div>
                       <label for="basic-url" class="form-label">País del evento</label>
@@ -162,13 +162,13 @@ export default class Home extends Component {
                         </select>
                       </div>
                       <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="Localidad del Evento"  onChange={this.handleChangePlaceEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required/>
+                        <input type="email" class="form-control" id="floatingInput" placeholder="Localidad del Evento" value={this.state.valuePlaceEvent}  onChange={this.handleChangePlaceEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required/>
                         <label for="floatingInput">Localidad del Evento</label>
                       </div>
 
                       <label for="basic-url" class="form-label">Código de evento</label>
                       <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" onChange={this.handleChangeCodeEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" value={this.state.valueCodeEvent} onChange={this.handleChangeCodeEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                       </div>
 
                     </div>
@@ -192,26 +192,26 @@ export default class Home extends Component {
                   <div class="modal-body">
                     <label for="basic-url" class="form-label">Nombre del Evento</label>
                     <div class="input-group mb-3">
-                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.eventName} required />
+                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.eventName} value={this.state.valueEventName} onChange={this.handleChangeEventName} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                     </div>
                     <label for="basic-url" class="form-label">Nombre del Cliente</label>
                     <div class="input-group mb-3">
-                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.clientName} />
+                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.clientName} value={this.state.valueClientName} onChange={this.handleChangeClientName} class="form-control" id="basic-url" aria-describedby="basic-addon3"/>
                     </div>
                     <label for="basic-url" class="form-label">Fecha y hora de inicio</label>
                     <div class="input-group mb-3">
                       <span class="input-group-text">Fecha</span>
-                      <input type="date" aria-label="First name" class="form-control" required />
+                      <input type="date" aria-label="First name" class="form-control" value={this.state.valueDateInitialEvent} onChange={this.handleChangeDateInitialEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                       <span class="input-group-text">Hora</span>
-                      <input type="time" aria-label="Last name" class="form-control" required />
+                      <input type="time" aria-label="Last name" class="form-control" value={this.state.valueTimeInitialEvent} onChange={this.handleChangeTimeInitialEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                     </div>
                     <label for="basic-url" class="form-label">Fecha y hora de finalización</label>
 
                     <div class="input-group mb-3">
                       <span class="input-group-text">Fecha</span>
-                      <input type="date" aria-label="First name" class="form-control" required />
+                      <input type="date" aria-label="First name" class="form-control" value={this.state.valueDateFinalEvent} onChange={this.handleChangeDateFinalEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                       <span class="input-group-text">Hora</span>
-                      <input type="time" aria-label="Last name" class="form-control" required />
+                      <input type="time" aria-label="Last name" class="form-control" value={this.state.valueTimeFinalEvent} onChange={this.handleChangeTimeFinalEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
 
                     </div>
                     <label for="basic-url" class="form-label">País del evento</label>
@@ -224,13 +224,13 @@ export default class Home extends Component {
                       </select>
                     </div>
                     <div class="form-floating mb-3">
-                      <input type="email" class="form-control" id="floatingInput" placeholder="Localidad del Evento" />
+                      <input type="email" class="form-control" id="floatingInput" placeholder="Localidad del Evento" value={this.state.valuePlaceEvent}  onChange={this.handleChangePlaceEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3"  required/>
                       <label for="floatingInput">Localidad del Evento</label>
                     </div>
 
                     <label for="basic-url" class="form-label">Código de evento</label>
                     <div class="input-group mb-3">
-                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
+                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" value={this.state.valueCodeEvent} onChange={this.handleChangeCodeEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
                     </div>
 
                   </div>
@@ -256,26 +256,26 @@ export default class Home extends Component {
                         <h5 class="modal-title mb-2" id="exampleModalLabel">Evento #1</h5>
                         <label for="basic-url" class="form-label">Nombre del Evento</label>
                         <div class="input-group mb-3">
-                          <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" disabled />
+                          <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" value={this.state.valueEventName} onChange={this.handleChangeEventName} class="form-control" id="basic-url" aria-describedby="basic-addon3" disabled />
                         </div>
                         <label for="basic-url" class="form-label">Nombre del Cliente</label>
                         <div class="input-group mb-3">
-                          <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" disabled />
+                          <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" value={this.state.valueClientName} onChange={this.handleChangeClientName} class="form-control" id="basic-url" aria-describedby="basic-addon3" disabled />
                         </div>
                         <label for="basic-url" class="form-label">Fecha y hora de inicio</label>
                         <div class="input-group mb-3">
                           <span class="input-group-text">Fecha</span>
-                          <input type="date" aria-label="First name" class="form-control" disabled />
+                          <input type="date" aria-label="First name" class="form-control" value={this.state.valueDateInitialEvent} onChange={this.handleChangeDateInitialEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" disabled />
                           <span class="input-group-text">Hora</span>
-                          <input type="time" aria-label="Last name" class="form-control" disabled />
+                          <input type="time" aria-label="Last name" class="form-control" value={this.state.valueTimeInitialEvent} onChange={this.handleChangeTimeInitialEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" disabled />
                         </div>
                         <label for="basic-url" class="form-label">Fecha y hora de finalización</label>
 
                         <div class="input-group mb-3">
                           <span class="input-group-text">Fecha</span>
-                          <input type="date" aria-label="First name" class="form-control" disabled />
+                          <input type="date" aria-label="First name" class="form-control" value={this.state.valueDateFinalEvent} onChange={this.handleChangeDateFinalEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" disabled />
                           <span class="input-group-text">Hora</span>
-                          <input type="time" aria-label="Last name" class="form-control" disabled />
+                          <input type="time" aria-label="Last name" class="form-control" value={this.state.valueTimeFinalEvent} onChange={this.handleChangeTimeFinalEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" disabled />
 
                         </div>
                         <label for="basic-url" class="form-label">País del evento</label>
@@ -288,13 +288,13 @@ export default class Home extends Component {
                           </select>
                         </div>
                         <div class="form-floating mb-3">
-                          <input type="email" class="form-control" id="floatingInput" placeholder="Localidad del Evento" disabled />
+                          <input type="email" class="form-control" id="floatingInput" placeholder="Localidad del Evento" value={this.state.valuePlaceEvent}  onChange={this.handleChangePlaceEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3"  disabled />
                           <label for="floatingInput">Localidad del Evento</label>
                         </div>
 
                         <label for="basic-url" class="form-label">Código de evento</label>
                         <div class="input-group mb-3">
-                          <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" disabled />
+                          <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" value={this.state.valueCodeEvent} onChange={this.handleChangeCodeEvent} class="form-control" id="basic-url" aria-describedby="basic-addon3" disabled />
                         </div>
 
                       </div>
