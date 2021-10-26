@@ -26,7 +26,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
     host : 'localhost',
     user : 'root',
-    password : 'Contraseña',
+    password : 'Delfines24',
     database : 'x_battle_pong_db'
 });
 
@@ -40,8 +40,27 @@ app.all('/*', (req, res, next) => {
 });
 
 
-//Devuelve información del evento
+//Devuelve todos los eventos
 app.get('/events', async(req, res) => {
+    try {
+        sql = `SELECT * FROM Evento`;
+        connection.connect(function(err){
+            if(err) throw err;
+            connection.query(sql, function(err, result, fields){
+                if(err) throw err;
+                console.log(result);
+                res.send(result);
+            });
+        });
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send();
+    } 
+    
+});
+//Devuelve información del evento
+app.get('/events/event', async(req, res) => {
     try {
         if(!req.query.codigo_evento) return res.status(404).json({error:'Por favor agregar datos faltantes'});
 
@@ -56,7 +75,28 @@ app.get('/events', async(req, res) => {
             });
         });
         
+    } catch (error) {
+        console.error(error);
+        res.status(500).send();
+    } 
+    
+});
 
+app.delete('/events/event', async(req, res) => {
+    try {
+        if(!req.query.codigo_evento) return res.status(404).json({error:'Por favor agregar datos faltantes'});
+
+        sql = `DELETE FROM Evento WHERE codigo_evento = '${req.query.codigo_evento}'`;
+        
+        connection.connect(function(err){
+            if(err) throw err;
+            connection.query(sql, function(err, result, fields){
+                if(err) throw err;
+                console.log(result);
+                res.send(result);
+            });
+        });
+        
     } catch (error) {
         console.error(error);
         res.status(500).send();
@@ -64,7 +104,8 @@ app.get('/events', async(req, res) => {
     
 });
  
-app.post("/events/new", async (req, res) => {
+ 
+app.post("/events/event/new", async (req, res) => {
     try {
         if (!req.query.codigo_evento || !req.query.nombre || !req.query.fecha_hora_inicio || !req.query.fecha_hora_fin
             || !req.query.pais || !req.query.localidad || !req.query.filas || !req.query.columnas || !req.query.tiempo_disparo
@@ -72,6 +113,7 @@ app.post("/events/new", async (req, res) => {
         
         let keys = [];
         keys = genkey.generatekey(req.query.nombre);
+        console.log(keys[1]);
         const codigo_evento = req.query.codigo_evento;
         const nombre = req.query.nombre;
         const fecha_hora_inicio = req.query.fecha_hora_inicio;
@@ -84,7 +126,7 @@ app.post("/events/new", async (req, res) => {
         const tipo_partida = req.query.tipo_partida;
         if(!req.query.nombre_cliente){
             var sql = `INSERT INTO Evento (codigo_evento, llave_unica, nombre, fecha_hora_inicio, fecha_hora_fin, pais, localidad, filas, columnas, tiempo_disparo, tipo_partida) VALUES ('${codigo_evento}','${keys[1]}', '${nombre}', '${fecha_hora_inicio}',
-             '${fecha_hora_fin}', '${pais}', ${localidad}, ${filas}, ${columnas}, ${tiempo_disparo}, ${tipo_partida});`;
+             '${fecha_hora_fin}', '${pais}', '${localidad}', ${filas}, ${columnas}, ${tiempo_disparo}, '${tipo_partida}')`;
              connection.connect(function(err){
                 if(err) throw err;
                 connection.query(sql, function(err, result){
@@ -96,7 +138,7 @@ app.post("/events/new", async (req, res) => {
         }else{
             const nombre_cliente = req.query.nombre_cliente;
             var sql = `INSERT INTO Evento (codigo_evento, llave_unica, nombre, fecha_hora_inicio, fecha_hora_fin, pais, localidad, filas, columnas, tiempo_disparo, tipo_partida, nombre_cliente) VALUES ('${codigo_evento}','${keys[1]}', '${nombre}', '${fecha_hora_inicio}',
-             '${fecha_hora_fin}', '${pais}', ${localidad}, ${filas}, ${columnas}, ${tiempo_disparo}, ${tipo_partida}, ${nombre_cliente});`;
+             '${fecha_hora_fin}', '${pais}', '${localidad}', ${filas}, ${columnas}, ${tiempo_disparo}, '${tipo_partida}', '${nombre_cliente}')`;
              connection.connect(function(err){
                 if(err) throw err;
                 connection.query(sql, function(err, result){
