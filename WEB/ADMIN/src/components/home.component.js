@@ -24,10 +24,12 @@ export default class Home extends Component {
       valueFilaEvent: '',
       valueColumnEvent: '',
       valueTimeEvent: '',
+      valueIDEvent: '',
       valueMultiEvent: ''
 
     }
     this.handleChangeEventName = this.handleChangeEventName.bind(this);
+    this.handleChangeEventID = this.handleChangeEventID.bind(this);
     this.handleChangeClientName = this.handleChangeClientName.bind(this);
     this.handleChangeTimeInitialEvent = this.handleChangeTimeInitialEvent.bind(this);
     this.handleChangeDateInitialEvent = this.handleChangeDateInitialEvent.bind(this);
@@ -48,6 +50,9 @@ export default class Home extends Component {
 
   handleChangeEventName(event) {
     this.setState({ valueEventName: event.target.value });
+  }
+  handleChangeEventID(event) {
+    this.setState({ valueEventID: event.target.value });
   }
   handleChangeClientName(event) {
     this.setState({ valueClientName: event.target.value });
@@ -260,6 +265,11 @@ export default class Home extends Component {
                     <div class="input-group mb-3">
                       <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.eventName} value={this.state.valueEventName} onChange={this.handleChangeEventName} required />
                     </div>
+                    
+                    <label for="basic-url" class="form-label"> Identificador del evento</label>
+                          <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="basic-url" placeholder={this.state.currentEvent.eventID} value={this.state.valueEventID} onChange={this.handleChangeEventID}  aria-describedby="basic-addon3" disabled />
+                          </div>
                     <label for="basic-url" class="form-label">Nombre del Cliente</label>
                     <div class="input-group mb-3">
                       <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.clientName} value={this.state.valueClientName} onChange={this.handleChangeClientName} />

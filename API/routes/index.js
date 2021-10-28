@@ -5,7 +5,7 @@ const fs  = require("fs");
 const path = require("path");
 const cors = require('cors');
 const multer = require('multer');
-const upload = multer( {dest : 'uploads/'})
+const upload = multer({dest : 'uploads/'})
 var app = express.Router();
 app.use(express.json());
 app.use(cors());

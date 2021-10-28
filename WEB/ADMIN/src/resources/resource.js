@@ -12,6 +12,7 @@ export const events = [
         filaEvent:'10',
         columnEvent:'10',
         timeEvent:'20',
-        multiEvent:''
+        multiEvent:'',
+        IDEvent:''
     },
 ];
