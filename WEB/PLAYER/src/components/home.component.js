@@ -7,17 +7,25 @@ export default class Home extends Component {
     this.state = {
       currentEvent: '',
       valueEventName: '',
+      value:''
 
     }
     this.handleChangeEventName = this.handleChangeEventName.bind(this);
     this.handleSubmitNewEvent = this.handleSubmitNewEvent.bind(this);
     this.enPartida = true
+    this.handleChange=this.handleChange.bind(this);
+    this.handleSubmit=this.handleSubmit.bind(this);
   }
 
   handleChangeEventName(event) {
     this.setState({ valueEventName: event.target.value });
   }
+  handleChange(event) {
+    this.setState({ valueEventName: event.target.value });
+  }
   handleSubmitNewEvent(event) {
+  }
+  handleSubmit(event) {
   }
 
   render() {
@@ -41,6 +49,13 @@ export default class Home extends Component {
                   <a class="nav-link" href=" ">Estadisticas</a>
                 </li>
               </ul>
+              <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" onSubmit={this.handleSubmit}>
+                <div class="input-group">
+                  <input class="form-control" value={this.state.value} onChange={this.handleChange} type="text" placeholder="Buscar Evento" aria-describedby="btnNavbarSearch" />
+                  
+                  <button class="btn btn-outline-primary" type="submit" value="Submit"><i class="fas fa-search"></i></button>
+                </div>
+              </form>
             </div>
           </div>
         </nav>
@@ -69,13 +84,9 @@ export default class Home extends Component {
                   <form onSubmit={this.handleSubmitNewEvent}>
                     <div class="modal-body">
                       <div class="row">
-                        <label for="basic-url" class="form-label">Nombre de la partida</label>
-                        <div class="input-group mb-3">
-                          <input type="text" value={this.state.valueEventName} onChange={this.handleChangeEventName} class="form-control" id="basic-url" aria-describedby="basic-addon3" required />
-                        </div>
                         <label for="basic-url" class="form-label">Identificador del Evento</label>
                         <div class="input-group mb-3">
-                          <input type="text" placeholder="21JBNS" value={this.state.valueEventName} onChange={this.handleChangeEventName} class="form-control" id="basic-url" aria-describedby="basic-addon3" disabled />
+                          <input type="text" placeholder="" value={this.state.valueEventName} onChange={this.handleChangeEventName} class="form-control" id="basic-url" aria-describedby="basic-addon3" />
                         </div>
 
                         <h5 class="modal-title mb-3" id="exampleModalLabel">Configuración de las partidas</h5>

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { countriesSpanish } from "../resources/countries";
 import { events } from "../resources/resource";
+import { BattlePongClient } from '../client/BattlePongClient';
 
 export default class Home extends Component {
+  BattlePongClient = new BattlePongClient();
 
   constructor() {
     super();
     this.state = {
+      data: '',
       currentEvent: '',
       valueEventName: '',
       valueClientName: '',
@@ -25,9 +28,10 @@ export default class Home extends Component {
       valueColumnEvent: '',
       valueTimeEvent: '',
       valueIDEvent: '',
-      valueMultiEvent: ''
+      valueMultiEvent: 'S'
 
     }
+    this.newArr=[]
     this.handleChangeEventName = this.handleChangeEventName.bind(this);
     this.handleChangeEventID = this.handleChangeEventID.bind(this);
     this.handleChangeClientName = this.handleChangeClientName.bind(this);
@@ -45,6 +49,7 @@ export default class Home extends Component {
     this.handleChangeMultiEvent = this.handleChangeMultiEvent.bind(this);
 
     this.handleSubmitNewEvent = this.handleSubmitNewEvent.bind(this);
+    this.newEvent= this.newEvent.bind(this)
 
   }
 
@@ -86,21 +91,47 @@ export default class Home extends Component {
     this.setState({ valueTimeEvent: event.target.value });
   }
   handleChangeMultiEvent(event) {
-    this.setState({ valueMultiEvent: event.target.value });
+    if (this.state.valueMultiEvent==='S'){
+      this.setState({ valueMultiEvent: 'M' });
+    }else{
+      this.setState({ valueMultiEvent: 'S' });
+    }
   }
   handleChangeCountryEvent(event) {
     this.setState({ valueCountryEvent: event.target.value });
   }
 
-  handleSubmitNewEvent(event) {
+  componentDidMount() {
+    this.loadEvents();
+  }
+
+  async loadEvents() {
+    const newData = await this.BattlePongClient.getEvents();
+    Array.from(newData).map((value) =>
+      this.newArr.push({codigo_evento:value.codigo_evento,columnas:value.columnas,filas:value.filas,llave_unica:value.llave_unica,localidad:value.localidad,nombre:value.nombre,nombre_cliente:value.nombre_cliente,pais:value.pais,tiempo_disparo:value.tiempo_disparo,tipo_partida:value.tipo_partida,fecha_inicio:value.fecha_hora_inicio.slice(0,10),hora_inicio:value.fecha_hora_inicio.slice(11,19),fecha_fin:value.fecha_hora_fin.slice(0,10),hora_fin:value.fecha_hora_fin.slice(11,19)})
+    )
+    this.setState({
+      data: this.newArr
+    });
+    console.log(this.state.data)
+  }
+
+  async handleSubmitNewEvent(event) {
+
+    console.log()
     if (this.state.valueDateInitialEvent < this.state.valueDateFinalEvent) {
-      if(this.state.valueFilaEvent<=100 && this.state.valueColumnEvent<=100 && this.state.valueTimeEvent<=300){
-      events.push({ eventName: this.state.valueEventName, clientName: this.state.valueClientName, dateInitialEvent: this.state.valueDateInitialEvent, timeInitialEvent: this.state.valueTimeInitialEvent, dateFinalEvent: this.state.valueDateFinalEvent, timeFinalEvent: this.state.valueTimeFinalEvent, countryEvent: this.state.valueCountryEvent, placeEvent: this.state.valuePlaceEvent, codeEvent: this.state.valueCodeEvent,filaEvent:this.state.valueFilaEvent,columnEvent:this.state.valueColumnEvent,timeEvent:this.state.valueTimeEvent,multiEvent:this.state.valueMultiEvent})
-      alert('Se ha creado el evento exitosamente!')
-      this.forceUpdate()
-    }else{
-      alert('Por favor ingrese valores de counfiguracion de partida validos')
-    }
+      if (this.state.valueFilaEvent <= 100 && this.state.valueColumnEvent <= 100 && this.state.valueTimeEvent <= 300) {
+        const newData1 = await this.BattlePongClient.newEvent(this.state.valueCodeEvent, this.state.valueEventName, this.state.valueDateInitialEvent + " " + this.state.valueTimeInitialEvent + ":00", this.state.valueDateFinalEvent + " " + this.state.valueTimeFinalEvent + ":00", this.state.valueCountryEvent, this.state.valuePlaceEvent, this.state.valueFilaEvent, this.state.valueColumnEvent, this.state.valueTimeEvent, this.state.valueMultiEvent,this.state.valueClientName)
+        this.setState({
+          data: newData1
+        });
+        console.log(this.state.data)
+        console.log(this.state.valueEventName, this.state.valueClientName, this.state.valueDateInitialEvent, this.state.valueTimeInitialEvent, this.state.valueDateFinalEvent, this.state.valueTimeFinalEvent, this.state.valueCountryEvent, this.state.valuePlaceEvent, this.state.valueCodeEvent, this.state.valueFilaEvent, this.state.valueColumnEvent, this.state.valueTimeEvent, this.state.valueMultiEvent)
+        alert('Se ha creado el evento exitosamente!')
+        this.forceUpdate()
+      } else {
+        alert('Por favor ingrese valores de counfiguracion de partida validos')
+      }
 
     } else {
       alert('Por favor ingrese una fecha inicial y final validas')
@@ -112,6 +143,21 @@ export default class Home extends Component {
   editEvent(value) {
     console.log(this.state.valueDateInitialEvent)
     this.setState({ currentEvent: value })
+    this.setState({
+      valueDateInitialEvent:value.fecha_inicio,
+      valueTimeInitialEvent:value.hora_inicio,
+      valueDateFinalEvent:value.fecha_fin,
+      valueTimeFinalEvent:value.hora_fin
+    });
+  }
+
+  newEvent() {
+    this.setState({
+      valueDateInitialEvent:'',
+      valueTimeInitialEvent:'',
+      valueDateFinalEvent:'',
+      valueTimeFinalEvent:''
+    });
   }
 
   render() {
@@ -132,10 +178,10 @@ export default class Home extends Component {
                       <i class="fas fa-table me-1"></i>
                       Lista de Eventos
                     </div>
-                    {Array.from(events).map((value) =>
+                    {Array.from(this.state.data).map((value) =>
                       <div class="list-group list-group-flush">
                         <button type="button" onClick={() => this.editEvent(value)} class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
-                          {value.eventName}  <button class="badge bg-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#EditarEventoModal" onClick={() => this.editEvent(value)}> <i class="fas fa-edit"></i></button>
+                          {value.nombre}  <button class="badge bg-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#EditarEventoModal" onClick={() => this.editEvent(value)}> <i class="fas fa-edit"></i></button>
                         </button>
                       </div>)}
                   </div>
@@ -145,7 +191,7 @@ export default class Home extends Component {
                     </div>
                     <div class="col-sm-2">
                       <div class="card bg-primary text-white mb-4">
-                        <button type="button " data-bs-toggle="modal" data-bs-target="#CrearEventoModal" class="bg-primary text-white list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                        <button type="button " data-bs-toggle="modal" data-bs-target="#CrearEventoModal" class="bg-primary text-white list-group-item list-group-item-action d-flex justify-content-between align-items-start" onClick={this.newEvent}>
                           Crear nuevo Evento
                         </button>
                       </div>
@@ -245,7 +291,7 @@ export default class Home extends Component {
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="submit" value="Submit" class="btn btn-primary">Crear evento</button>
+                      <button type="submit" value="Submit" class="btn btn-primary" >Crear evento</button>
                     </div>
                   </form>
                 </div>
@@ -263,37 +309,37 @@ export default class Home extends Component {
                   <div class="modal-body">
                     <label for="basic-url" class="form-label">Nombre del Evento</label>
                     <div class="input-group mb-3">
-                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.eventName} value={this.state.valueEventName} onChange={this.handleChangeEventName} required />
+                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.nombre} value={this.state.valueEventName} onChange={this.handleChangeEventName} required />
                     </div>
-                    
+
                     <label for="basic-url" class="form-label"> Identificador del evento</label>
-                          <div class="input-group mb-3">
-                            <input type="text" class="form-control" id="basic-url" placeholder={this.state.currentEvent.eventID} value={this.state.valueEventID} onChange={this.handleChangeEventID}  aria-describedby="basic-addon3" disabled />
-                          </div>
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" id="basic-url" placeholder={this.state.currentEvent.llave_unica} value={this.state.valueEventID} onChange={this.handleChangeEventID} aria-describedby="basic-addon3" disabled />
+                    </div>
                     <label for="basic-url" class="form-label">Nombre del Cliente</label>
                     <div class="input-group mb-3">
-                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.clientName} value={this.state.valueClientName} onChange={this.handleChangeClientName} />
+                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.nombre_cliente} value={this.state.valueClientName} onChange={this.handleChangeClientName} />
                     </div>
                     <label for="basic-url" class="form-label">Fecha y hora de inicio</label>
                     <div class="input-group mb-3">
                       <span class="input-group-text">Fecha</span>
-                      <input type="date" aria-label="First name" class="form-control" value={this.state.valueDateInitialEvent} onChange={this.handleChangeDateInitialEvent} placeholder={this.state.currentEvent.dateInitialEvent} id="basic-url" aria-describedby="basic-addon3" required />
+                      <input type="date" aria-label="First name" class="form-control" value={this.state.valueDateInitialEvent} onChange={this.handleChangeDateInitialEvent} placeholder={this.state.currentEvent.fecha_inicio} id="basic-url" aria-describedby="basic-addon3" required />
                       <span class="input-group-text">Hora</span>
-                      <input type="time" aria-label="Last name" class="form-control" value={this.state.valueTimeInitialEvent} onChange={this.handleChangeTimeInitialEvent} placeholder={this.state.currentEvent.timeInitialEvent} id="basic-url" aria-describedby="basic-addon3" required />
+                      <input type="time" aria-label="Last name" class="form-control" value={this.state.valueTimeInitialEvent} onChange={this.handleChangeTimeInitialEvent} placeholder={this.state.currentEvent.hora_inicio} id="basic-url" aria-describedby="basic-addon3" required />
                     </div>
                     <label for="basic-url" class="form-label">Fecha y hora de finalización</label>
 
                     <div class="input-group mb-3">
                       <span class="input-group-text">Fecha</span>
-                      <input type="date" aria-label="First name" class="form-control" value={this.state.valueDateFinalEvent} onChange={this.handleChangeDateFinalEvent} placeholder={this.state.currentEvent.dateFinalEvent} id="basic-url" aria-describedby="basic-addon3" required />
+                      <input type="date" aria-label="First name" class="form-control" value={this.state.valueDateFinalEvent} onChange={this.handleChangeDateFinalEvent} placeholder={this.state.currentEvent.fecha_fin} id="basic-url" aria-describedby="basic-addon3" required />
                       <span class="input-group-text">Hora</span>
-                      <input type="time" aria-label="Last name" class="form-control" value={this.state.valueTimeFinalEvent} onChange={this.handleChangeTimeFinalEvent} placeholder={this.state.currentEvent.timeFinalEvent} id="basic-url" aria-describedby="basic-addon3" required />
+                      <input type="time" aria-label="Last name" class="form-control" value={this.state.valueTimeFinalEvent} onChange={this.handleChangeTimeFinalEvent} placeholder={this.state.currentEvent.hora_fin} id="basic-url" aria-describedby="basic-addon3" required />
 
                     </div>
                     <label for="basic-url" class="form-label">País del evento</label>
                     <div class="input-group mb-3">
                       <select class="form-select" required >
-                        <option selected>{this.state.currentEvent.countryEvent}</option>
+                        <option selected>{this.state.currentEvent.pais}</option>
                         {Array.from(countriesSpanish).map((value) =>
                           <option value={value.label}>{value.label}</option>)}
 
@@ -301,12 +347,12 @@ export default class Home extends Component {
                     </div>
                     <label for="basic-url" class="form-label">Localidad del Evento</label>
                     <div class="input-group mb-3">
-                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.placeEvent} value={this.state.valuePlaceEvent} onChange={this.handleChangePlaceEvent} required />
+                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder={this.state.currentEvent.localidad} value={this.state.valuePlaceEvent} onChange={this.handleChangePlaceEvent} required />
                     </div>
 
                     <label for="basic-url" class="form-label">Código de evento</label>
                     <div class="input-group mb-3">
-                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" value={this.state.valueCodeEvent} onChange={this.handleChangeCodeEvent} placeholder={this.state.currentEvent.codeEvent} required />
+                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" value={this.state.valueCodeEvent} onChange={this.handleChangeCodeEvent} placeholder={this.state.currentEvent.codigo_evento} required />
                     </div>
 
                   </div>

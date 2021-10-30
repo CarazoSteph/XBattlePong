@@ -22,7 +22,7 @@ const { stringify } = require('querystring');
 var songs = []; 
 app.use(express.json());
 
-var mysql = require('mysql');
+const mysql = require('mysql');
 var connection = mysql.createConnection({
     host : 'localhost',
     user : 'root',
