@@ -7,9 +7,9 @@ export default class Partida extends Component {
     this.state = {
       currentEvent: '',
       valueEventName: '',
-      filas: 10,
-      columnas: 10,
-      gameArr:''
+      filas: 5,
+      columnas: 5,
+      gameArr: ''
     }
     this.seaIMG = 'https://github.com/CarazoSteph/XBattlePong/blob/develop/WEB/PLAYER/src/resources/sea.png?raw=true'
     this.ship1IMG = 'https://github.com/CarazoSteph/XBattlePong/blob/develop/WEB/PLAYER/src/resources/ship1.png?raw=true'
@@ -17,7 +17,7 @@ export default class Partida extends Component {
     this.ship3IMG = 'https://github.com/CarazoSteph/XBattlePong/blob/develop/WEB/PLAYER/src/resources/ship3.png?raw=true'
     this.handleChangeEventName = this.handleChangeEventName.bind(this);
     this.handleSubmitNewEvent = this.handleSubmitNewEvent.bind(this);
-    this.shipNow=''
+    this.shipNow = ''
   }
 
   handleChangeEventName(event) {
@@ -26,20 +26,92 @@ export default class Partida extends Component {
   handleSubmitNewEvent(event) {
   }
 
-  componentDidMount(){
-    this.setState({ gameArr: Array.from({length: this.state.filas}, (v, a) => Array.from({length: this.state.columnas}, (v, i) => [a,i,this.seaIMG,false]))});
+  componentDidMount() {
+    this.setState({ gameArr: Array.from({ length: this.state.filas }, (v, a) => Array.from({ length: this.state.columnas }, (v, i) => [a, i, this.seaIMG, false, 0, 0])) });
   }
 
-  estaArr(list){
+  estaArr(list) {
     return list.includes(this.shipNow)
   }
-  onPlace(ship){
-    // eslint-disable-next-line react/no-direct-mutation-state
-    this.state.gameArr[ship[0]][ship[1]][2]=this.ship1IMG
-    // eslint-disable-next-line react/no-direct-mutation-state
-    this.state.gameArr[ship[0]][ship[1]][3]=true
-    console.log(this.state.gameArr[ship[0]][ship[1]])
-    this.forceUpdate()
+  onPlace(ship) {
+    if (this.state.gameArr[ship[0]][ship[1]][3] === true) {
+      alert('Por favor coloque su nave en una casilla no ocupada')
+    } else if (this.shipNow === '') {
+      alert('Por favor seleccione una nave para colocar')
+    } else {
+      if (this.shipNow[1] > 1) {
+        let flag = false;
+        for (let i = 0; i < this.shipNow[1]; i++) {
+          if (ship[1] + i>this.state.columnas-1) {
+            alert('Por favor coloque su nave en una valida dentro de los limites')
+            flag = true;
+            break;
+          } else if (this.state.gameArr[ship[0]][ship[1] + i][3] === true){
+            alert('Por favor coloque su nave en una casilla no ocupada')
+            flag = true;
+          }
+        }
+        for (let i = 0; i < this.shipNow[1]; i++) {
+          if (flag) {
+          } else {
+            // eslint-disable-next-line react/no-direct-mutation-state
+            this.state.gameArr[ship[0]][ship[1] + i][2] = this.shipNow[0]
+            // eslint-disable-next-line react/no-direct-mutation-state
+            this.state.gameArr[ship[0]][ship[1] + i][3] = true
+            this.forceUpdate()
+          }
+        }
+
+      } else if (this.shipNow[2] > 1) {
+        let flag = false;
+        for (let i = 0; i < this.shipNow[2]; i++) {
+          if (ship[0]+ i>this.state.filas-1) {
+            alert('Por favor coloque su nave en una valida dentro de los limites')
+            flag = true;
+            break;
+          }
+          if (this.state.gameArr[ship[0]+ i][ship[1] ][3] === true) {
+            alert('Por favor coloque su nave en una casilla no ocupada')
+            flag = true;
+          } else {
+          }
+        }
+        for (let i = 0; i < this.shipNow[2]; i++) {
+          if (flag) {
+          } else {
+            // eslint-disable-next-line react/no-direct-mutation-state
+            this.state.gameArr[ship[0]+ i][ship[1]][2] = this.shipNow[0]
+            // eslint-disable-next-line react/no-direct-mutation-state
+            this.state.gameArr[ship[0]+ i][ship[1]][3] = true
+            this.forceUpdate()
+          }
+        }
+
+      } else {
+        // eslint-disable-next-line react/no-direct-mutation-state
+        this.state.gameArr[ship[0]][ship[1]][2] = this.shipNow[0]
+        // eslint-disable-next-line react/no-direct-mutation-state
+        this.state.gameArr[ship[0]][ship[1]][3] = true
+        this.forceUpdate()
+      }
+    }
+  }
+
+  newShip(ship) {
+    switch (ship) {
+      default:
+        break;
+      case (1):
+        this.shipNow = [this.ship1IMG, 1, 1]
+        break;
+      case (2):
+        this.shipNow = [this.ship2IMG, 1, 2]
+        break;
+      case (3):
+        this.shipNow = [this.ship3IMG, 2, 1]
+        break;
+
+    }
   }
 
   render() {
@@ -59,26 +131,26 @@ export default class Partida extends Component {
 
             <table class="table table-bordered mx-3">
               <thead>
-              <tr>
-              <th scope="col"></th>
-              {Array.from({length:this.state.columnas}).map((row,num) =>
-                  <th scope="col">{num+1}</th>
-                )}
+                <tr>
+                  <th scope="col"></th>
+                  {Array.from({ length: this.state.columnas }).map((row, num) =>
+                    <th scope="col">{num + 1}</th>
+                  )}
                 </tr>
-                
+
               </thead>
               <tbody>
-                
-                {Array.from(this.state.gameArr).map((row,num) =>
+
+                {Array.from(this.state.gameArr).map((row, num) =>
                   <tr>
-                  <th scope="row">{num+1}</th>
-                  {Array.from(row).map((ship) =>
+                    <th scope="row">{num + 1}</th>
+                    {Array.from(row).map((ship) =>
                       <td>
-                        <button type="button" class="btn btn-outline-primary" onClick={()=>this.onPlace(ship)}>
+                        <button type="button" class="btn btn-outline-primary" onClick={() => this.onPlace(ship)}>
                           <img src={ship[2]} alt=' ' class="card-img-top img-fluid" style={{ 'maxWidth': '50px' }} />
                         </button>
                       </td>
-                      )}</tr>)}
+                    )}</tr>)}
               </tbody>
             </table>
           </div>
@@ -86,23 +158,23 @@ export default class Partida extends Component {
             <div class="card border-secondary mb-3 mx-3">
               <div class="card-header">Nave 1, 1x1</div>
               <div class="card-body text-secondary">
-                <button type="button" class="btn btn-outline-primary">
+                <button type="button" class="btn btn-outline-primary" onClick={() => this.newShip(1)}>
                   <img src={this.ship1IMG} alt=' ' class="card-img-top img-fluid" style={{ 'max-width': '100px' }} />
                 </button>
               </div>
             </div>
             <div class="card border-success mb-3 mx-3">
-              <div class="card-header">Nave 2</div>
+              <div class="card-header">Nave 2, 1x2</div>
               <div class="card-body text-success">
-                <button type="button" class="btn btn-outline-primary">
+                <button type="button" class="btn btn-outline-primary" onClick={() => this.newShip(2)}>
                   <img src={this.ship2IMG} alt=' ' class="card-img-top img-fluid" style={{ 'max-width': '100px' }} />
                 </button>
               </div>
             </div>
             <div class="card border-danger mb-3 mx-3">
-              <div class="card-header">Nave 3</div>
+              <div class="card-header">Nave 3, 2x1</div>
               <div class="card-body text-danger">
-                <button type="button" class="btn btn-outline-primary">
+                <button type="button" class="btn btn-outline-primary" onClick={() => this.newShip(3)}>
                   <img src={this.ship3IMG} alt=' ' class="card-img-top img-fluid" style={{ 'max-width': '100px' }} />
                 </button>
               </div>
