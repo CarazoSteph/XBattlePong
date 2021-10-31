@@ -11,8 +11,10 @@ export default class Partida extends Component {
       columnas: 10,
       gameArr:''
     }
-    this.seaIMG = 'https://github.com/CarazoSteph/XBattlePong/blob/develop/WEB/PLAYER/src/resources/sea-icon-9.png?raw=true'
-    this.ship1IMG = 'https://github.com/CarazoSteph/XBattlePong/blob/develop/WEB/PLAYER/src/resources/icon-cruise-ship.png?raw=true'
+    this.seaIMG = 'https://github.com/CarazoSteph/XBattlePong/blob/develop/WEB/PLAYER/src/resources/sea.png?raw=true'
+    this.ship1IMG = 'https://github.com/CarazoSteph/XBattlePong/blob/develop/WEB/PLAYER/src/resources/ship1.png?raw=true'
+    this.ship2IMG = 'https://github.com/CarazoSteph/XBattlePong/blob/develop/WEB/PLAYER/src/resources/ship2.png?raw=true'
+    this.ship3IMG = 'https://github.com/CarazoSteph/XBattlePong/blob/develop/WEB/PLAYER/src/resources/ship3.png?raw=true'
     this.handleChangeEventName = this.handleChangeEventName.bind(this);
     this.handleSubmitNewEvent = this.handleSubmitNewEvent.bind(this);
     this.shipNow=''
@@ -85,7 +87,7 @@ export default class Partida extends Component {
               <div class="card-header">Nave 1, 1x1</div>
               <div class="card-body text-secondary">
                 <button type="button" class="btn btn-outline-primary">
-                  <img src={this.ship1IMG} alt=' ' class="card-img-top img-fluid" style={{ 'max-width': '50%' }} />
+                  <img src={this.ship1IMG} alt=' ' class="card-img-top img-fluid" style={{ 'max-width': '100px' }} />
                 </button>
               </div>
             </div>
@@ -93,7 +95,7 @@ export default class Partida extends Component {
               <div class="card-header">Nave 2</div>
               <div class="card-body text-success">
                 <button type="button" class="btn btn-outline-primary">
-                  <img src={this.ship1IMG} alt=' ' class="card-img-top img-fluid" style={{ 'max-width': '50%' }} />
+                  <img src={this.ship2IMG} alt=' ' class="card-img-top img-fluid" style={{ 'max-width': '100px' }} />
                 </button>
               </div>
             </div>
@@ -101,7 +103,7 @@ export default class Partida extends Component {
               <div class="card-header">Nave 3</div>
               <div class="card-body text-danger">
                 <button type="button" class="btn btn-outline-primary">
-                  <img src={this.ship1IMG} alt=' ' class="card-img-top img-fluid" style={{ 'max-width': '50%' }} />
+                  <img src={this.ship3IMG} alt=' ' class="card-img-top img-fluid" style={{ 'max-width': '100px' }} />
                 </button>
               </div>
             </div>
