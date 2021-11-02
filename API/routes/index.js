@@ -146,7 +146,6 @@ app.post("/events/event/new", async (req, res) => {
     }
 });
 
-
 app.put("/events/event", async (req, res) => {
     try {
         if (!req.query.codigo_evento || !req.query.nombre || !req.query.fecha_hora_inicio || !req.query.fecha_hora_fin || !req.query.llave_unica
@@ -194,5 +193,81 @@ app.put("/events/event", async (req, res) => {
     }
 });
 
+//Agregar nuevo usuario
+app.post("/users/user/new", async (req, res) => {
+    try {
+        if (!req.query.nombre_usuario || !req.query.nombre || !req.query.apellido1 
+            || !req.query.apellido2 
+            || !req.query.pass) return res.status(404).json({error:'Por favor agregar los detalles faltantes'});
+        
+        
+        const nombre_usuario = req.query.nombre_usuario;
+        const nombre = req.query.nombre;
+        const apellido1 = req.query.apellido1;
+        const apellido2 = req.query.apellido2;
+        const pass = req.query.pass;
+        
+        var sql = `INSERT INTO Usuario (nombre_usuario, nombre, apellido1, apellido2, pass, victorias, derrotas) 
+        VALUES ('${nombre_usuario}', '${nombre}', '${apellido1}', '${apellido2}', '${pass}', 0, 0)`;
+            
+            
+        connection.query(sql, function(err, result){
+            if(err) throw err;
+            console.log("1 record inserted");
+            res.send(result);
+        });
+        
+        
+  
+    } catch (error) {
+        console.error(error);
+        res.status(500).send();
+    }
+});
+
+//Agregar nueva partida
+app.post("/matches/match/new", async (req, res) => {
+    try {
+        if (!req.query.codigo_evento || !req.query.creador) return res.status(404).json({error:'Por favor agregar los detalles faltantes'});
+        
+        
+        const codigo_evento = req.query.codigo_evento;
+        const creador = req.query.creador;
+        
+        var sql = `INSERT INTO Partida (creador, codigo_evento) VALUES ('${creador}','${codigo_evento}')`;
+            
+            
+        connection.query(sql, function(err, result){
+            if(err) throw err;
+            console.log("1 record inserted");
+            res.send(result);
+        });
+        
+        
+  
+    } catch (error) {
+        console.error(error);
+        res.status(500).send();
+    }
+});
+
+app.get('/matches', async(req, res) => {
+    try {
+        if(!req.query.codigo_evento) return res.status(404).json({error:'Por favor agregar datos faltantes'});
+
+        sql = `SELECT * FROM Partida WHERE codigo_evento = '${req.query.codigo_evento}'`;
+        
+        connection.query(sql, function(err, result, fields){
+            if(err) throw err;
+            console.log(result);
+            res.send(result);
+        });
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send();
+    } 
+    
+});
 
 module.exports = app;
