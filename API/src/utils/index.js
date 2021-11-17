@@ -1,4 +1,3 @@
-
 function generatekey(event_name){
     let chars = '0123456789abcdefghijklmnopqrstuvwxyz';
     let result = '';
@@ -10,6 +9,4 @@ function generatekey(event_name){
     return [event_name, result];
 }
 
-
-
-module.exports.generatekey = generatekey;
+exports.generatekey = generatekey;
